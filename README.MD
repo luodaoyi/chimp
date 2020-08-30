@@ -1,4 +1,6 @@
-﻿#### 背景
+﻿![Build Action](https://github.com/luodaoyi/chimp/workflows/publish%20to%20nuget/badge.svg)    [![Dapper](https://img.shields.io/nuget/v/Asura.Leo.Chimp.svg)](https://www.nuget.org/packages/Asura.Leo.Chimp/) 
+
+#### 背景
 17年开始，公司开始向DotNet Core转型，面对ORM工具的选型，当时围绕Dapper和EF发生了激烈的讨论。项目团队更加关注快速交付，他们主张使用EF这种能快速开发的ORM工具;而在线业务团队对性能有更高的要求，他们更希望使用能直接执行Sql语句的Dapper这样可控性更高。而对于架构团队来说，满足开发团队的各种需求，提高他们的开发效率是最核心的价值所在，所以当时决定做一个混合型的既支持EF又支持dapper的数据仓储。
 
 #### 为什么选择EF+Dapper

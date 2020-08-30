@@ -4,11 +4,19 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageProjectUrl>https://github.com/luodaoyi/chimp</PackageProjectUrl>
     <LangVersion>7.3</LangVersion>
-    <Version>3.0.0</Version>
+    <Version>3.1.7</Version>
     <Authors>luodaoyi</Authors>
-    <Description>ef and dapper repository.</Description>
+    <Description>Fork 自 https://github.com/longxianghui/chimp.git
+增加sqlite支持,更新efcore 3.1.x的支持
+更新依赖库到最新版本
+ef and dapper repository.</Description>
     <PackageTags>repository;unit of work;ef;dapper;</PackageTags>
     <RepositoryUrl>https://github.com/luodaoyi/chimp</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>Asura.Leo.Chimp</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage />
   </PropertyGroup>
 
   <ItemGroup>
