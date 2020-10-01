@@ -11,10 +11,10 @@ namespace Leo.Chimp.Test.Entities
     public class Student : IEntity
     {
         [Key]
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid SchoolId { get; set; }
-        public DateTime Birthday { get; set; }
+        public Guid id { get; set; }
+        public string name { get; set; }
+        public Guid school_id { get; set; }
+        public DateTime birthday { get; set; }
 
         public School MySchool { get; set; }
     }

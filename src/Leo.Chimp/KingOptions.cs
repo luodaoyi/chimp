@@ -20,7 +20,8 @@ namespace Leo.Chimp
     {
         MSSQL,
         MYSQL,
-        SQLITE
+        SQLITE,
+        NPGSQL,
     }
 
 }

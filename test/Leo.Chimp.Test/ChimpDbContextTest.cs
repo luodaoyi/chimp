@@ -19,7 +19,7 @@ namespace Leo.Chimp.Test
         public ChimpDbContextTest()
         {
             var services = new ServiceCollection();
-            dbType = DbType.MYSQL;
+            dbType = InitChimpTestDb.Type;
             InitChimpTestDb.Start(services, dbType);
             var sp = services.BuildServiceProvider();
             _unitOfWork = sp.GetRequiredService<IUnitOfWork>();
@@ -31,8 +31,8 @@ namespace Leo.Chimp.Test
         {
             var school = new School
             {
-                Name = Guid.NewGuid().ToString(),
-                Id = Guid.NewGuid()
+                name = Guid.NewGuid().ToString(),
+                id = Guid.NewGuid()
             };
             _schoolRepository.Insert(school);
             _unitOfWork.SaveChanges();
@@ -43,7 +43,7 @@ namespace Leo.Chimp.Test
         public void GetById()
         {
             var newSchool = Insert();
-            var school = _schoolRepository.GetById(newSchool.Id);
+            var school = _schoolRepository.GetById(newSchool.id);
             Assert.True(school != null);
         }
     }

@@ -9,6 +9,7 @@ using Leo.Chimp.DapperAdapter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace Leo.Chimp
 {
@@ -71,10 +72,12 @@ namespace Leo.Chimp
             ISqlAdapter sqlAdapter = null;
             if (_context.Database.IsMySql())
                 sqlAdapter = new MysqlAdapter();
-            else if(_context.Database.IsSqlServer())
+            else if (_context.Database.IsSqlServer())
                 sqlAdapter = new SqlServerAdapter();
-            else if(_context.Database.IsSqlite())
+            else if (_context.Database.IsSqlite())
                 sqlAdapter = new SqliteAdapter();
+            else if (_context.Database.IsNpgsql())
+                sqlAdapter = new NpgsqlAdapter();
             else
                 throw new Exception("Unsupported database type");
             pageSql = sqlAdapter.PagingBuild(ref partedSql, pageSqlArgs, (pageIndex - 1) * pageSize, pageSize);

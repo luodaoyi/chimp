@@ -21,7 +21,7 @@ namespace Leo.Chimp.Test
         public DapperTest()
         {
             var services = new ServiceCollection();
-            dbType = DbType.MYSQL;
+            dbType = InitChimpTestDb.Type;
             InitChimpTestDb.Start(services, dbType);
             var sp = services.BuildServiceProvider();
             _unitOfWork = sp.GetRequiredService<IUnitOfWork>();
@@ -47,13 +47,12 @@ namespace Leo.Chimp.Test
         {
             var school = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_ExecuteAsync_school"
+                id = Guid.NewGuid(),
+                name = "Dapper_ExecuteAsync_school"
             };
-            if (dbType == DbType.SQLITE)
+            if (dbType == DbType.SQLITE || dbType == DbType.NPGSQL)
             {
-                await _unitOfWork.ExecuteAsync("insert into school(id,name) values(@Id,@Name)",
-                    school);
+                await _unitOfWork.ExecuteAsync("insert into school(id,name) values(@Id,@Name)", school);
             }
             else
             {
@@ -62,9 +61,9 @@ namespace Leo.Chimp.Test
             }
 
             var newSchool = await _unitOfWork.QueryAsync<School>("select * from school where id =@Id",
-                new { Id = school.Id });
+                new { Id = school.id });
 
-            Assert.True(school.Name == newSchool.First().Name);
+            Assert.True(school.name == newSchool.First().name);
         }
 
         [Fact]
@@ -80,14 +79,14 @@ namespace Leo.Chimp.Test
         {
             var school1 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_TransactionUseSaveChange_school1"
+                id = Guid.NewGuid(),
+                name = "Dapper_TransactionUseSaveChange_school1"
             };
 
             var school2 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_TransactionUseSaveChange_school2"
+                id = Guid.NewGuid(),
+                name = "Dapper_TransactionUseSaveChange_school2"
             };
 
             await _schoolRepository.InsertAsync(school1);
@@ -95,9 +94,9 @@ namespace Leo.Chimp.Test
             await _unitOfWork.SaveChangesAsync();
 
             var newSchool1 = await _unitOfWork.QueryAsync<School>("select * from school where Id=@Id",
-                new { Id = school1.Id });
+                new { Id = school1.id });
             var newSchool2 = await _unitOfWork.QueryAsync<School>("select * from school where Id=@Id",
-                new { Id = school2.Id });
+                new { Id = school2.id });
            Assert.True(newSchool1.Any() && newSchool2.Any());
 
         }
@@ -107,14 +106,14 @@ namespace Leo.Chimp.Test
         {
             var school1 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_Transaction_school1"
+                id = Guid.NewGuid(),
+                name = "Dapper_Transaction_school1"
             };
 
             var school2 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_Transaction_school2"
+                id = Guid.NewGuid(),
+                name = "Dapper_Transaction_school2"
             };
 
             using (var tran = _unitOfWork.BeginTransaction())
@@ -144,9 +143,9 @@ namespace Leo.Chimp.Test
                 }
             }
             var newSchool1 = await _unitOfWork.QueryAsync<School>("select * from school where id =@Id",
-                new { Id = school1.Id });
+                new { Id = school1.id });
             var newSchool2 = await _unitOfWork.QueryAsync<School>("select * from school where id =@Id",
-                new { Id = school2.Id });
+                new { Id = school2.id });
             Assert.False(newSchool1.Any() || newSchool2.Any());
 
         }
@@ -156,14 +155,14 @@ namespace Leo.Chimp.Test
         {
             var school1 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_HybridTransaction_school1"
+                id = Guid.NewGuid(),
+                name = "Dapper_HybridTransaction_school1"
             };
 
             var school2 = new School
             {
-                Id = Guid.NewGuid(),
-                Name = "Dapper_HybridTransaction_school2"
+                id = Guid.NewGuid(),
+                name = "Dapper_HybridTransaction_school2"
             };
             using (var tran = _unitOfWork.BeginTransaction())
             {
@@ -190,9 +189,9 @@ namespace Leo.Chimp.Test
                 }
             }
             var newSchool1 = await _unitOfWork.QueryAsync<School>("select * from school where id =@Id",
-                new { Id = school1.Id });
+                new { Id = school1.id });
             var newSchool2 = await _unitOfWork.QueryAsync<School>("select * from school where id =@Id",
-                new { Id = school2.Id });
+                new { Id = school2.id });
             Assert.False(newSchool1.Any() || newSchool2.Any());
         }
 

@@ -4,9 +4,9 @@
 -- ----------------------------
 DROP TABLE IF EXISTS School;
 CREATE TABLE School (
-    Id   CHAR(32)     PRIMARY KEY
+    id   CHAR(32)     PRIMARY KEY
                        NOT NULL,
-    Name VARCHAR (255) 
+    name VARCHAR (255) 
 );
 
 -- ----------------------------
@@ -14,10 +14,10 @@ CREATE TABLE School (
 -- ----------------------------
 DROP TABLE IF EXISTS Student;
 CREATE TABLE Student (
-    Id       CHAR(32)     NOT NULL
+    id       CHAR(32)     NOT NULL
                            PRIMARY KEY,
-    Name     VARCHAR (255),
-    Age      INT,
-    Birthday DATETIME,
-    SchoolId CHAR (32) 
+    name     VARCHAR (255),
+    age      INT,
+    birthday DATETIME,
+    schoolId CHAR (32) 
 ); 

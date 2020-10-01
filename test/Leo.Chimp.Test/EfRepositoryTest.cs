@@ -25,7 +25,8 @@ namespace Leo.Chimp.Test
             services.AddChimp(opt =>
             {
                 //opt.UseMySql("server = 10.0.0.146;database=chimp;uid=root;password=123456;");
-                opt.UseMySql("Server=192.168.5.5;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none");
+                //opt.UseMySql("Server=192.168.5.5;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none");
+                opt.UseNpgsql("Server=192.168.5.5;port=5433;Database=database;Uid=root;Pwd=luodaoyi");
             });
 
             //services.AddChimp(opt =>
@@ -43,8 +44,8 @@ namespace Leo.Chimp.Test
         {
             var school = new School
             {
-                Name = $"EF_Insert_{Guid.NewGuid()}",
-                Id = Guid.NewGuid()
+                name = $"EF_Insert_{Guid.NewGuid()}",
+                id = Guid.NewGuid()
             };
             _schoolRepository.Insert(school);
             _unitOfWork.SaveChanges();
@@ -55,7 +56,7 @@ namespace Leo.Chimp.Test
         public void GetById()
         {
             var newSchool = Insert();
-            var school = _schoolRepository.GetById(newSchool.Id);
+            var school = _schoolRepository.GetById(newSchool.id);
             Assert.True(school != null);
         }
 
@@ -81,8 +82,8 @@ namespace Leo.Chimp.Test
             {
                 var school = new School
                 {
-                    Id = Guid.NewGuid(),
-                    Name = $"EF_Inserts_{Guid.NewGuid()}",
+                    id = Guid.NewGuid(),
+                    name = $"EF_Inserts_{Guid.NewGuid()}",
                 };
                 schools.Add(school);
             }
@@ -91,7 +92,7 @@ namespace Leo.Chimp.Test
 
             foreach (var item in schools)
             {
-                var school = _schoolRepository.GetById(item.Id);
+                var school = _schoolRepository.GetById(item.id);
                 if (school == null)
                 {
                     Assert.True(false);
@@ -104,8 +105,8 @@ namespace Leo.Chimp.Test
         {
             var school = new School
             {
-                Id = Guid.NewGuid(),
-                Name = $"EF_InsertAsync_{Guid.NewGuid()}"
+                id = Guid.NewGuid(),
+                name = $"EF_InsertAsync_{Guid.NewGuid()}"
             };
             await _schoolRepository.InsertAsync(school);
             await _unitOfWork.SaveChangesAsync();
@@ -117,7 +118,7 @@ namespace Leo.Chimp.Test
         {
             var newSchool = Insert();
 
-            var school = await _schoolRepository.GetByIdAsync(newSchool.Id);
+            var school = await _schoolRepository.GetByIdAsync(newSchool.id);
             Assert.True(school != null);
         }
 
@@ -130,8 +131,8 @@ namespace Leo.Chimp.Test
             {
                 var school = new School
                 {
-                    Id = Guid.NewGuid(),
-                    Name = $"{"EF_InsertsAsync_"}_{i}"
+                    id = Guid.NewGuid(),
+                    name = $"{"EF_InsertsAsync_"}_{i}"
                 };
                 schools.Add(school);
             }
@@ -140,7 +141,7 @@ namespace Leo.Chimp.Test
 
             foreach (var item in schools)
             {
-                var school = await _schoolRepository.GetByIdAsync(item.Id);
+                var school = await _schoolRepository.GetByIdAsync(item.id);
                 if (school == null)
                 {
                     Assert.True(false);
@@ -151,7 +152,7 @@ namespace Leo.Chimp.Test
         public void Update()
         {
             var school = Insert();
-            school.Name = $"EF_Update_{Guid.NewGuid()}";
+            school.name = $"EF_Update_{Guid.NewGuid()}";
             _schoolRepository.Update(school);
             _unitOfWork.SaveChanges();
         }
@@ -160,14 +161,14 @@ namespace Leo.Chimp.Test
         {
             var schools = Inserts();
 
-            schools.ForEach(x => x.Name = Guid.NewGuid().ToString());
+            schools.ForEach(x => x.name = Guid.NewGuid().ToString());
             _schoolRepository.Update(schools);
             _unitOfWork.SaveChanges();
 
             foreach (var item in schools)
             {
-                var school = _schoolRepository.GetById(item.Id);
-                if (school.Name != item.Name)
+                var school = _schoolRepository.GetById(item.id);
+                if (school.name != item.name)
                 {
                     Assert.True(false);
                 }
@@ -190,13 +191,13 @@ namespace Leo.Chimp.Test
             _schoolRepository.Update(school, x => x.Name);
             */
 
-            data.Name = $"EF_UpdateNoSelect_{Guid.NewGuid()}";
+            data.name = $"EF_UpdateNoSelect_{Guid.NewGuid()}";
 
-            _schoolRepository.Update(data, x => x.Name);
+            _schoolRepository.Update(data, x => x.name);
             _unitOfWork.SaveChanges();
             //这里不能使用 _schoolRepository.GetById(data.Id); 查询出来的结果和数据库不一致
-            var newSchool = _schoolRepository.TableNoTracking.First(x => x.Id == data.Id);
-            Assert.True(newSchool.Name == data.Name);
+            var newSchool = _schoolRepository.TableNoTracking.First(x => x.id == data.id);
+            Assert.True(newSchool.name == data.name);
         }
 
 
@@ -208,7 +209,7 @@ namespace Leo.Chimp.Test
             _schoolRepository.Delete(school);
             _unitOfWork.SaveChanges();
 
-            var newSchool = _schoolRepository.Table.FirstOrDefault(x => x.Id == school.Id);
+            var newSchool = _schoolRepository.Table.FirstOrDefault(x => x.id == school.id);
             Assert.True(newSchool == null);
         }
 
@@ -222,8 +223,8 @@ namespace Leo.Chimp.Test
             {
                 var school = new School
                 {
-                    Id = Guid.NewGuid(),
-                    Name = Guid.NewGuid().ToString()
+                    id = Guid.NewGuid(),
+                    name = Guid.NewGuid().ToString()
                 };
                 schools.Add(school);
             }
@@ -232,7 +233,7 @@ namespace Leo.Chimp.Test
 
             foreach (var item in schools)
             {
-                var school = _schoolRepository.GetById(item.Id);
+                var school = _schoolRepository.GetById(item.id);
                 if (school == null)
                 {
                     Assert.True(false);
@@ -243,7 +244,7 @@ namespace Leo.Chimp.Test
 
             foreach (var item in schools)
             {
-                var school = _schoolRepository.GetById(item.Id);
+                var school = _schoolRepository.GetById(item.id);
                 if (school != null)
                 {
                     Assert.True(false);
@@ -258,10 +259,10 @@ namespace Leo.Chimp.Test
         {
             var data = Insert();
 
-            _schoolRepository.Delete(x => x.Id == data.Id);
+            _schoolRepository.Delete(x => x.id == data.id);
             _unitOfWork.SaveChanges();
 
-            var newSchool = _schoolRepository.Table.FirstOrDefault(x => x.Id == data.Id);
+            var newSchool = _schoolRepository.Table.FirstOrDefault(x => x.id == data.id);
             Assert.True(newSchool == null);
         }
     }

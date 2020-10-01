@@ -8,10 +8,14 @@ namespace Leo.Chimp.Test
 {
     class InitChimpTestDb
     {
+        public static DbType Type { get; set; } = DbType.NPGSQL;
         public static void Start(ServiceCollection services,DbType dbType)
         {
             switch (dbType)
             {
+                case DbType.NPGSQL:
+                    services.AddChimp(opt => opt.UseNpgsql("Server=192.168.5.5;port=5433;Database=database;Uid=root;Pwd=luodaoyi"));
+                    break;
                 case DbType.MSSQL:
                     services.AddChimp(opt => { opt.UseSqlServer("Server=10.0.0.99;Database=chimp;Uid=sa;Pwd=Fuluerp123"); });
                     break;
