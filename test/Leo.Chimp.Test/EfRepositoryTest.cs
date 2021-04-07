@@ -25,8 +25,8 @@ namespace Leo.Chimp.Test
             services.AddChimp(opt =>
             {
                 //opt.UseMySql("server = 10.0.0.146;database=chimp;uid=root;password=123456;");
-                //opt.UseMySql("Server=192.168.5.5;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none");
-                opt.UseNpgsql("Server=192.168.5.5;port=5433;Database=database;Uid=root;Pwd=luodaoyi");
+                //opt.UseMySql("Server=192.168.5.9;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none", new MySqlServerVersion(new Version(5, 6, 51)));
+                opt.UseNpgsql("Server=192.168.5.9;Database=database;Uid=postgres;Pwd=luodaoyi");
             });
 
             //services.AddChimp(opt =>

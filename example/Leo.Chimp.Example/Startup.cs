@@ -30,7 +30,7 @@ namespace Leo.Chimp.Example
             services.AddControllersWithViews();
             services.AddChimp<ChimpDbContext>(
                 /*opt => opt.UseSqlServer("Server=10.0.0.99;Database=Chimp;Uid=sa;Pwd=Fuluerp123")*/
-                opt => opt.UseMySql("Server=192.168.5.5;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none")
+                opt => opt.UseMySql("Server=192.168.5.9;Database=Chimp;Uid=root;Pwd='luodaoyi';SslMode=none", new MySqlServerVersion(new Version(5, 6, 51)))
             );
         }
 
